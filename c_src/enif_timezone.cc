@@ -50,7 +50,7 @@ public:
     bool load(const std::string& timezone);
     void load_utc_timezone();
     void load_local_timezone();
-    void load_fixed_timezone(uint64_t offset);
+    void load_fixed_timezone(int32_t offset);
 
     cctz::time_zone::civil_lookup lookup(const cctz::civil_second& sec);
     cctz::time_zone::absolute_lookup lookup(uint64_t seconds);
@@ -77,9 +77,9 @@ void TimeZoneWrapper::load_local_timezone()
     tz_ = cctz::local_time_zone();
 }
 
-void TimeZoneWrapper::load_fixed_timezone(uint64_t offset)
+void TimeZoneWrapper::load_fixed_timezone(int32_t offset)
 {
-    tz_ = cctz::fixed_time_zone(std::chrono::duration<uint64_t>(offset));
+    tz_ = cctz::fixed_time_zone(std::chrono::duration<int32_t>(offset));
 }
 
 cctz::time_zone::civil_lookup TimeZoneWrapper::lookup(const cctz::civil_second& sec)
@@ -139,12 +139,16 @@ ERL_NIF_TERM enif_timezone_new(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv
     }
     else if(enif_is_number(env, argv[0]))
     {
-        unsigned long offset;
+        int32_t offset;
 
-        if(!enif_get_uint64(env, argv[0], &offset))
+        if(!enif_get_int(env, argv[0], &offset))
             return make_error(env, kUnknownTimezone);
 
         timezone->tz->load_fixed_timezone(offset);
+    }
+    else
+    {
+        return make_badarg(env);
     }
 
     return make_ok_result(env, enif_make_resource(env, timezone.get()));
