@@ -5,6 +5,8 @@
 #include "cctz/time_zone.h"
 
 #include <chrono>
+#include <memory>
+#include <string.h>
 
 namespace {
 
