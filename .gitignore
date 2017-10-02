@@ -1,0 +1,8 @@
+/.idea/
+/.rebar/
+/deps/
+/DerivedData/
+/elocaltime.xcodeproj/
+/ebin/
+/priv/
+*.iml
