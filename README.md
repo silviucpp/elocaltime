@@ -14,7 +14,7 @@ The application is compatible with both `rebar` or `rebar3`. Add `elocaltime` as
 
 ### API
 
-All functions accepts the datetime in both `calendar:datetime()` or unix timestamp (number of seconds since 1 Jan 970) format.
+All public functions exported accepts the datetime in both formats: `calendar:datetime()` or unix timestamp (number of seconds since 1 Jan 970).
 
 Timezones can be one of the following:
 
