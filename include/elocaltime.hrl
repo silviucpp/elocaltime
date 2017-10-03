@@ -11,11 +11,7 @@
 -define(CIVIL_KIND_SKIPPED, skipped).
 -define(CIVIL_KIND_REPEATED, repeated).
 
--type reason() :: any().
 -type timestamp() :: non_neg_integer().
--type datetime() :: calendar:datetime() | timestamp().
--type timezone() :: binary() | ?TIMEZONE_UTC | ?TIMEZONE_LOCAL | ?TIMEZONE_FIXED(integer()).
--type disambiguation() :: ?DS_STANDARD | ?DS_DAYLIGHT | ?DS_BOTH.
 -type civil_kind() :: ?CIVIL_KIND_REPEATED | ?CIVIL_KIND_UNIQUE | ?CIVIL_KIND_SKIPPED.
 
 -record(absolute_lookup, {
@@ -32,5 +28,3 @@
     post :: timestamp()
 }).
 
--type absolute_lookup() :: #absolute_lookup{}.
--type civil_lookup() :: #civil_lookup{}.

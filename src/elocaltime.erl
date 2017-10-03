@@ -18,6 +18,13 @@
     is_timezone_valid/1
 ]).
 
+-type reason() :: any().
+-type datetime() :: calendar:datetime() | timestamp().
+-type timezone() :: binary() | ?TIMEZONE_UTC | ?TIMEZONE_LOCAL | ?TIMEZONE_FIXED(integer()).
+-type disambiguation() :: ?DS_STANDARD | ?DS_DAYLIGHT | ?DS_BOTH.
+-type absolute_lookup() :: #absolute_lookup{}.
+-type civil_lookup() :: #civil_lookup{}.
+
 -spec start() ->
     ok  | {error, reason()}.
 
@@ -41,7 +48,7 @@ start(Type) ->
 stop() ->
     application:stop(elocaltime).
 
--spec civil_lookup(calendar:datetime() | timestamp(), timezone()) ->
+-spec civil_lookup(datetime(), timezone()) ->
     {ok, civil_lookup()} | {error, reason()}.
 
 civil_lookup(Date, Timezone) ->
@@ -52,7 +59,7 @@ civil_lookup(Date, Timezone) ->
             Error
     end.
 
--spec absolute_lookup(calendar:datetime() | timestamp(), timezone()) ->
+-spec absolute_lookup(datetime(), timezone()) ->
     {ok, absolute_lookup()} | {error, reason()}.
 
 absolute_lookup(Date, Timezone) ->
@@ -63,7 +70,7 @@ absolute_lookup(Date, Timezone) ->
             Error
     end.
 
--spec utc2local_datetime(calendar:datetime() | timestamp(), timezone()) ->
+-spec utc2local_datetime(datetime(), timezone()) ->
     {ok, calendar:datetime()} | {error, reason()}.
 
 utc2local_datetime(Date, Timezone) ->
@@ -74,7 +81,7 @@ utc2local_datetime(Date, Timezone) ->
             Error
     end.
 
--spec utc2local_ts(calendar:datetime() | timestamp(), timezone()) ->
+-spec utc2local_ts(datetime(), timezone()) ->
     {ok, timestamp()} | {error, reason()}.
 
 utc2local_ts(Date, Timezone) ->
@@ -85,7 +92,7 @@ utc2local_ts(Date, Timezone) ->
             Error
     end.
 
--spec local2utc_ts(calendar:datetime() | timestamp(), timezone(), disambiguation()) ->
+-spec local2utc_ts(datetime(), timezone(), disambiguation()) ->
     {ok, timestamp()} | {ok, timestamp(), timestamp()} | {error, reason()}.
 
 local2utc_ts(Date, Timezone, Disambiguation) ->
@@ -96,7 +103,7 @@ local2utc_ts(Date, Timezone, Disambiguation) ->
             Error
     end.
 
--spec local2utc_datetime(calendar:datetime() | timestamp(), timezone(), disambiguation()) ->
+-spec local2utc_datetime(datetime(), timezone(), disambiguation()) ->
     {ok, calendar:datetime()} | {ok, calendar:datetime(), calendar:datetime()} | {error, reason()}.
 
 local2utc_datetime(Date, Timezone, Disambiguation) ->
@@ -135,7 +142,7 @@ disambiguation(#civil_lookup{civil_kind = Kind, pre = Pre, trans = _Trans, post 
             end
     end.
 
--spec to_seconds(calendar:datetime() | timestamp()) ->
+-spec to_seconds(datetime()) ->
     timestamp().
 
 to_seconds(V) when is_integer(V) ->
@@ -143,7 +150,7 @@ to_seconds(V) when is_integer(V) ->
 to_seconds(V) ->
     elocaltime_utils:datetime2ts(V).
 
--spec to_datetime(calendar:datetime() | timestamp()) ->
+-spec to_datetime(datetime()) ->
     calendar:datetime().
 
 to_datetime(V) when is_integer(V) ->
