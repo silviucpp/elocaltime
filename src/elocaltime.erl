@@ -14,7 +14,8 @@
     utc2local_ts/2,
 
     local2utc_ts/3,
-    local2utc_datetime/3
+    local2utc_datetime/3,
+    is_timezone_valid/1
 ]).
 
 -spec start() ->
@@ -44,7 +45,7 @@ stop() ->
     {ok, civil_lookup()} | {error, reason()}.
 
 civil_lookup(Date, Timezone) ->
-    case elocaltime_timezone:get(Timezone) of
+    case elocaltime_timezone:get_tz(Timezone) of
         {ok, TzRef} ->
             elocaltime_nif:civil_lookup(to_datetime(Date), TzRef);
         Error ->
@@ -55,7 +56,7 @@ civil_lookup(Date, Timezone) ->
     {ok, absolute_lookup()} | {error, reason()}.
 
 absolute_lookup(Date, Timezone) ->
-    case elocaltime_timezone:get(Timezone) of
+    case elocaltime_timezone:get_tz(Timezone) of
         {ok, TzRef} ->
             elocaltime_nif:absolute_lookup(to_seconds(Date), TzRef);
         Error ->
@@ -107,6 +108,12 @@ local2utc_datetime(Date, Timezone, Disambiguation) ->
         Error ->
             Error
     end.
+
+-spec is_timezone_valid(timezone()) ->
+    boolean().
+
+is_timezone_valid(Timezone) ->
+    elocaltime_timezone:is_valid(Timezone).
 
 %private
 

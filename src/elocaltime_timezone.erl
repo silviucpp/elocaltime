@@ -6,7 +6,8 @@
 
 -export([
     start_link/0,
-    get/1,
+    get_tz/1,
+    is_valid/1,
 
     % gen_server
 
@@ -20,7 +21,7 @@
 
 -define(SERVER, ?MODULE).
 
-get(Timezone) ->
+get_tz(Timezone) ->
     case elocaltime_tz_cache:get(Timezone) of
         {ok, _TzRef} = Result ->
             Result;
@@ -31,6 +32,14 @@ get(Timezone) ->
                 Error ->
                     Error
             end
+    end.
+
+is_valid(Timezone) ->
+    case get_tz(Timezone) of
+        {ok, _} ->
+            true;
+        _ ->
+            false
     end.
 
 -record(state, {}).

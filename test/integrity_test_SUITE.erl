@@ -15,7 +15,8 @@ groups() -> [
         absolute_lookup,
         local2utc_datetime,
         local2utc_ts,
-        utc2local_xx
+        utc2local_xx,
+        is_timezone_valid
     ]}
 ].
 
@@ -81,4 +82,13 @@ utc2local_xx(_Config) ->
     Timezone = <<"Europe/Bucharest">>,
     {ok,{{2017,3,26},{2,0,0}}} = elocaltime:utc2local_datetime({{2017,3,26},{0,0,0}}, Timezone),
     {ok, 1490493600} = elocaltime:utc2local_ts(1490486400, Timezone),
+    true.
+
+is_timezone_valid(_Config) ->
+    true = elocaltime:is_timezone_valid(<<"Europe/Bucharest">>),
+    true = elocaltime:is_timezone_valid(?TIMEZONE_LOCAL),
+    true = elocaltime:is_timezone_valid(?TIMEZONE_UTC),
+    true = elocaltime:is_timezone_valid(?TIMEZONE_FIXED(120)),
+    true = elocaltime:is_timezone_valid(?TIMEZONE_FIXED(-120)),
+    false = elocaltime:is_timezone_valid(<<"EEST">>),
     true.
