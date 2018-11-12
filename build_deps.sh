@@ -10,7 +10,7 @@ fi
 
 REPO=https://github.com/google/cctz.git
 BRANCH=master
-REV=e19879df3a14791b7d483c359c4acd6b2a1cd96b
+REV=2cbee9fab10e732b62d21c976a44610d8ed94628
 
 function fail_check
 {

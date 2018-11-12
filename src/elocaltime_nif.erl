@@ -7,7 +7,9 @@
 -export([
     new_timezone/1,
     absolute_lookup/2,
-    civil_lookup/2
+    civil_lookup/2,
+    format/2,
+    format/3
 ]).
 
 %% nif functions
@@ -36,4 +38,10 @@ absolute_lookup(_Date, _TimezoneRef) ->
     ?NOT_LOADED.
 
 civil_lookup(_Date, _TimezoneRef) ->
+    ?NOT_LOADED.
+
+format(_Format, _Ts) ->
+    ?NOT_LOADED.
+
+format(_Format, _Ts, _Tz) ->
     ?NOT_LOADED.

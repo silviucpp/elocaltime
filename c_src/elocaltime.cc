@@ -1,4 +1,4 @@
-#include "enif_timezone.h"
+#include "elocaltime.h"
 #include "elocaltime_nif.h"
 #include "macros.h"
 #include "nif_utils.h"
@@ -9,6 +9,8 @@
 #include <string.h>
 
 namespace {
+
+cctz::time_zone kUtcTz = cctz::utc_time_zone();
 
 const char kUnknownTimezone[] = "unknown timezone";
 
@@ -53,6 +55,7 @@ public:
     void load_utc_timezone();
     void load_local_timezone();
     void load_fixed_timezone(int32_t offset);
+    std::string format(const std::string& format, std::chrono::system_clock::time_point tp);
 
     cctz::time_zone::civil_lookup lookup(const cctz::civil_second& sec);
     cctz::time_zone::absolute_lookup lookup(uint64_t seconds);
@@ -92,6 +95,11 @@ cctz::time_zone::civil_lookup TimeZoneWrapper::lookup(const cctz::civil_second& 
 cctz::time_zone::absolute_lookup TimeZoneWrapper::lookup(uint64_t seconds)
 {
     return tz_.lookup(timestamp2tp(seconds));
+}
+
+std::string TimeZoneWrapper::format(const std::string& format, std::chrono::system_clock::time_point tp)
+{
+    return cctz::format(format, tp, tz_);
 }
 
 }
@@ -235,5 +243,33 @@ ERL_NIF_TERM enif_timezone_civil_lookup(ErlNifEnv* env, int argc, const ERL_NIF_
                                                 enif_make_uint64(env, tp2timestamp(lookup.post))));
 }
 
+ERL_NIF_TERM enif_format(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+    UNUSED(argc);
 
+    elocatime_data* data = static_cast<elocatime_data*>(enif_priv_data(env));
+
+    std::string format;
+    unsigned long timestamp;
+
+    if(!get_string(env, argv[0], &format))
+        return make_badarg(env);
+
+    if(!enif_get_uint64(env, argv[1], &timestamp))
+        return make_badarg(env);
+
+    if(argc == 3)
+    {
+        enif_timezone* timezone;
+
+        if(!enif_get_resource(env, argv[2], data->res_timezone, (void**)&timezone))
+            return make_badarg(env);
+
+        std::string result = timezone->tz->format(format, timestamp2tp(timestamp));
+        return make_ok_result(env, make_binary(env, result.c_str(), result.size()));
+    }
+
+    std::string result = cctz::format(format, timestamp2tp(timestamp), kUtcTz);
+    return make_ok_result(env, make_binary(env, result.c_str(), result.size()));
+}
 

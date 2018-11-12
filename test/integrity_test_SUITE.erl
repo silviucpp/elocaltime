@@ -16,7 +16,8 @@ groups() -> [
         local2utc_datetime,
         local2utc_ts,
         utc2local_xx,
-        is_timezone_valid
+        is_timezone_valid,
+        test_format
     ]}
 ].
 
@@ -92,3 +93,11 @@ is_timezone_valid(_Config) ->
     true = elocaltime:is_timezone_valid(?TIMEZONE_FIXED(-120)),
     false = elocaltime:is_timezone_valid(<<"EEST">>),
     true.
+
+test_format(_Config) ->
+    {ok,<<"2018-11-12 15:10:24 +00:00">>} =
+        elocaltime:format(<<"%Y-%m-%d %H:%M:%S %Ez">>, 1542035424),
+    {ok,<<"2018-11-12 10:10:24 -05:00">>} =
+        elocaltime:format(<<"%Y-%m-%d %H:%M:%S %Ez">>, 1542035424, <<"America/New_York">>),
+    true.
+    

@@ -1,5 +1,5 @@
 #include "elocaltime_nif.h"
-#include "enif_timezone.h"
+#include "elocaltime.h"
 #include "nif_utils.h"
 #include "macros.h"
 
@@ -73,7 +73,9 @@ void on_nif_unload(ErlNifEnv* env, void* priv_data)
 static ErlNifFunc nif_funcs[] = {
     {"new_timezone", 1, enif_timezone_new},
     {"absolute_lookup", 2, enif_timezone_absolute_lookup},
-    {"civil_lookup", 2, enif_timezone_civil_lookup}
+    {"civil_lookup", 2, enif_timezone_civil_lookup},
+    {"format", 2, enif_format},
+    {"format", 3, enif_format}
 };
 
 ERL_NIF_INIT(elocaltime_nif, nif_funcs, on_nif_load, NULL, on_nif_upgrade, on_nif_unload)

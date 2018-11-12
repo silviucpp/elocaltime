@@ -15,7 +15,10 @@
 
     local2utc_ts/3,
     local2utc_datetime/3,
-    is_timezone_valid/1
+    is_timezone_valid/1,
+
+    format/2,
+    format/3
 ]).
 
 -type reason() :: any().
@@ -121,6 +124,23 @@ local2utc_datetime(Date, Timezone, Disambiguation) ->
 
 is_timezone_valid(Timezone) ->
     elocaltime_timezone:is_valid(Timezone).
+
+-spec format(binary(), datetime()) ->
+    {ok, binary()}.
+
+format(Format, DateTime) ->
+    elocaltime_nif:format(Format, to_seconds(DateTime)).
+
+-spec format(binary(), datetime(), timezone()) ->
+    {ok, binary()}.
+
+format(Format, DateTime, Timezone) ->
+    case elocaltime_timezone:get_tz(Timezone) of
+        {ok, TzRef} ->
+            elocaltime_nif:format(Format, to_seconds(DateTime), TzRef);
+        Error ->
+            Error
+    end.
 
 %private
 

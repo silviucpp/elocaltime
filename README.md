@@ -44,6 +44,24 @@ You can change this behaviour using the parameter:
 - `?DS_DAYLIGHT`: If an ambiguous result occurs, will return the preferred daylight time.
 - `?DS_BOTH`: If an ambiguous result occurs both will be returned as a tuple of 3 elements `{ok, Standard, Daylight}`
 
+##### API to for date formatting
+
+This API Formats the given `DateTime` in the given timezone according to the provided format string. Uses [strftime()-like][3] formatting options,
+with the following extensions:
+
+- `%Ez`  - RFC3339-compatible numeric UTC offset (+hh:mm or -hh:mm)
+- `%E*z` - Full-resolution numeric UTC offset (+hh:mm:ss or -hh:mm:ss)
+- `%E#S` - Seconds with # digits of fractional precision
+- `%E*S` - Seconds with full fractional precision (a literal '*')
+- `%E#f` - Fractional seconds with # digits of precision
+- `%E*f` - Fractional seconds with full precision (a literal '*')
+- `%E4Y` - Four-character years (-999 ... -001, 0000, 0001 ... 9999)
+
+Notes: 
+
+- `%E0S` behaves like `%S`, and `%E0f` produces no characters. In contrast `%E*f` always produces at least one digit, which may be '0'.
+- `%Y` produces as many characters as it takes to fully render the year. A year outside of [-999:9999] when formatted with `%E4Y` will produce more than four characters, just like `%Y`.
+
 ##### Other public functions
 
 ###### civil_lookup 
@@ -123,7 +141,8 @@ Where:
 
 ### Tests
 
-In order to run the tests just use `make ct` from project root.
+In order to run the tests just use `rebar ct` from project root.
 
 [1]:https://github.com/google/cctz
 [2]:https://www.iana.org/time-zones
+[3]:http://www.cplusplus.com/reference/ctime/strftime/
