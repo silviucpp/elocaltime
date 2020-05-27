@@ -1,18 +1,20 @@
 #!/usr/bin/env bash
 
+ROOT=$(pwd)
 DEPS_LOCATION=deps
-DESTINATION=cctz
+OS=$(uname -s)
+KERNEL=$(echo $(lsb_release -ds 2>/dev/null || cat /etc/*release 2>/dev/null | head -n1 | awk '{print $1;}') | awk '{print $1;}')
+CPUS=`getconf _NPROCESSORS_ONLN 2>/dev/null || sysctl -n hw.ncpu`
 
-if [ -f "$DEPS_LOCATION/$DESTINATION/libcctz.a" ]; then
-    echo "cctz fork already exist. delete $DEPS_LOCATION/$DESTINATION for a fresh checkout."
-    exit 0
-fi
+# https://github.com/google/cctz.git
 
-REPO=https://github.com/google/cctz.git
-BRANCH=master
-REV=2cbee9fab10e732b62d21c976a44610d8ed94628
+CCTZ_DESTINATION=cctz
+CCTZ_REPO=https://github.com/google/cctz.git
+CCTZ_BRANCH=master
+CCTZ_REV=24e9dcfb299ed08c5a97a36b35b8b81b363b8a4a
+CCTZ_SUCCESS=libcctz.a
 
-function fail_check
+fail_check()
 {
     "$@"
     local status=$?
@@ -22,33 +24,43 @@ function fail_check
     fi
 }
 
-function DownloadLib()
+CheckoutLib()
 {
-	echo "repo=$REPO rev=$REV branch=$BRANCH"
+    if [ -f "$DEPS_LOCATION/$4/$5" ]; then
+        echo "$4 fork already exist. delete $DEPS_LOCATION/$4 for a fresh checkout ..."
+    else
+        #repo rev branch destination
 
-	mkdir -p $DEPS_LOCATION
-	pushd $DEPS_LOCATION
+        echo "repo=$1 rev=$2 branch=$3"
 
-	if [ ! -d "$DESTINATION" ]; then
-	    fail_check git clone -b $BRANCH $REPO $DESTINATION
+        mkdir -p $DEPS_LOCATION
+        pushd $DEPS_LOCATION
+
+        if [ ! -d "$4" ]; then
+            fail_check git clone -b $3 $1 $4
+        fi
+
+        pushd $4
+        fail_check git checkout $2
+        BuildLibrary $4
+        popd
+        popd
     fi
-
-	pushd $DESTINATION
-	fail_check git checkout $REV
-	popd
-	popd
 }
 
-function BuildLib()
+BuildLibrary()
 {
-	pushd $DEPS_LOCATION
-	pushd $DESTINATION
+    unset CFLAGS
+    unset CXXFLAGS
 
-    fail_check make
-
-	popd
-	popd
+    case $1 in
+        $CCTZ_DESTINATION)
+            fail_check make -j $(CPUS) libcctz.a
+            ;;
+        *)
+            ;;
+    esac
 }
 
-DownloadLib
-BuildLib
+CheckoutLib $CCTZ_REPO $CCTZ_REV $CCTZ_BRANCH $CCTZ_DESTINATION $CCTZ_SUCCESS
+

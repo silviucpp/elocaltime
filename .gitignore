@@ -7,3 +7,4 @@
 /priv/
 *.iml
 /log/
+/_build/

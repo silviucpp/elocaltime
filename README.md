@@ -141,7 +141,7 @@ Where:
 
 ### Tests
 
-In order to run the tests just use `rebar ct` from project root.
+In order to run the tests just use `rebar3 ct` from project root.
 
 [1]:https://github.com/google/cctz
 [2]:https://www.iana.org/time-zones

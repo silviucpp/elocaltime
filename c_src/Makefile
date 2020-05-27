@@ -4,6 +4,8 @@ PROJECT_NIF_NAME=elocaltime_nif
 include nif.mk
 
 ifeq ($(UNAME_SYS), darwin)
+	LDFLAGS += -framework CoreFoundation
+
 	LDFLAGS +=  -Wl,-U,_enif_is_binary \
 				-Wl,-U,_enif_is_identical \
 				-Wl,-U,_enif_is_atom \
