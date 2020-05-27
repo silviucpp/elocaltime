@@ -1,5 +1,8 @@
 Erlang library for conversion from one local time to another based on [google cctz][1] 
 
+[![Build Status](https://travis-ci.org/silviucpp/elocaltime.svg?branch=master)](https://travis-ci.org/silviucpp/elocaltime)
+![GitHub](https://img.shields.io/github/license/silviucpp/elocaltime)
+
 ### Getting started:
 
 ##### Integration
