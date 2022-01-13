@@ -1,8 +1,30 @@
 {application, elocaltime, [
     {description, "Erlang library for conversion from one local time to another based on google cctz"},
-    {vsn, "1.4"},
+    {licenses, ["MIT"]},
+    {links,[{"Github","https://github.com/silviucpp/elocaltime"}]},
+    {vsn, "1.4.0"},
     {registered, []},
-    {applications, [kernel, stdlib]},
+    {applications, [
+        kernel,
+        stdlib
+    ]},
     {mod, {elocaltime_app, []}},
-    {env, []}
+    {env, []},
+    {files, [
+        "LICENSE*",
+        "*.MD",
+        "Makefile",
+        "build_deps.sh",
+        "rebar.config",
+        "rebar.lock",
+        "include/*.hrl",
+        "src/*.erl",
+        "src/*.src",
+        "c_src/*.h",
+        "c_src/*.cc",
+        "c_src/Makefile",
+        "c_src/nif.mk",
+        "test/*.erl",
+        "test/*.spec"
+    ]}
 ]}.

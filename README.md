@@ -2,6 +2,7 @@ Erlang library for conversion from one local time to another based on [google cc
 
 [![Build Status](https://travis-ci.com/silviucpp/elocaltime.svg?branch=master)](https://travis-ci.com/github/silviucpp/elocaltime)
 ![GitHub](https://img.shields.io/github/license/silviucpp/elocaltime)
+[![Hex.pm](https://img.shields.io/hexpm/v/erlkaf)](https://hex.pm/packages/elocaltime)
 
 ### Getting started:
 
