@@ -11,7 +11,7 @@ CPUS=`getconf _NPROCESSORS_ONLN 2>/dev/null || sysctl -n hw.ncpu`
 CCTZ_DESTINATION=cctz
 CCTZ_REPO=https://github.com/google/cctz.git
 CCTZ_BRANCH=master
-CCTZ_REV=24e9dcfb299ed08c5a97a36b35b8b81b363b8a4a
+CCTZ_REV=6921e4f81fdf14cc60c965c8551811c0c610285f
 CCTZ_SUCCESS=libcctz.a
 
 fail_check()

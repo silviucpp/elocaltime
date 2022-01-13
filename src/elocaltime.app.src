@@ -1,6 +1,6 @@
 {application, elocaltime, [
     {description, "Erlang library for conversion from one local time to another based on google cctz"},
-    {vsn, "1.3"},
+    {vsn, "1.4"},
     {registered, []},
     {applications, [kernel, stdlib]},
     {mod, {elocaltime_app, []}},
