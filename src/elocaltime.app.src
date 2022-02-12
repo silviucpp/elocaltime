@@ -2,7 +2,7 @@
     {description, "Erlang library for conversion from one local time to another based on google cctz"},
     {licenses, ["MIT"]},
     {links,[{"Github","https://github.com/silviucpp/elocaltime"}]},
-    {vsn, "1.4.0"},
+    {vsn, "1.4.1"},
     {registered, []},
     {applications, [
         kernel,

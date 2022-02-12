@@ -31,5 +31,5 @@ ifeq ($(UNAME_SYS), darwin)
 				-Wl,-U,_enif_priv_data
 endif
 
-CXXFLAGS += -I../deps/cctz/include -DNDEBUG -g -Wextra -Werror -Wno-missing-field-initializers -fno-exceptions -fno-rtti -std=c++11
-LDFLAGS += -L../deps/cctz -lcctz -lstdc++
+CXXFLAGS += -I../_build/deps/cctz/include -DNDEBUG -g -Wextra -Werror -Wno-missing-field-initializers -fno-exceptions -fno-rtti -std=c++11
+LDFLAGS += -L../_build/deps/cctz -lcctz -lstdc++
