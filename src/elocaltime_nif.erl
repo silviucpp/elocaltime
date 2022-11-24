@@ -20,7 +20,7 @@ load_nif() ->
     ok = erlang:load_nif(SoName, 0).
 
 get_priv_path(File) ->
-    case code:priv_dir(erl_uap) of
+    case code:priv_dir(elocaltime) of
         {error, bad_name} ->
             Ebin = filename:dirname(code:which(?MODULE)),
             filename:join([filename:dirname(Ebin), "priv", File]);

@@ -1,5 +1,5 @@
-#ifndef C_SRC_ERLUAP_NIF_H_
-#define C_SRC_ERLUAP_NIF_H_
+#ifndef C_SRC_ELOCALTIME_NIF_H_
+#define C_SRC_ELOCALTIME_NIF_H_
 
 #include "erl_nif.h"
 
