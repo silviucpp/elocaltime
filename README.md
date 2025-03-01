@@ -1,14 +1,14 @@
 Erlang library for conversion from one local time to another based on [google cctz][1] 
 
-[![Build Status](https://travis-ci.com/silviucpp/elocaltime.svg?branch=master)](https://travis-ci.com/github/silviucpp/elocaltime)
+[![Build Status](https://app.travis-ci.com/silviucpp/elocaltime.svg?branch=master)](https://travis-ci.com/github/silviucpp/elocaltime)
 [![GitHub](https://img.shields.io/github/license/silviucpp/elocaltime)](https://github.com/silviucpp/elocaltime/blob/master/LICENSE)
 [![Hex.pm](https://img.shields.io/hexpm/v/elocaltime)](https://hex.pm/packages/elocaltime)
 
-### Getting started:
+## Getting started:
 
-##### Integration
+### Integration
 
-The application is compatible with both `rebar` or `rebar3`. Add `elocaltime` as a rebar dependency to your project:
+Add `elocaltime` as a rebar3 dependency to your project:
 
 ```
 {deps, [
@@ -28,7 +28,7 @@ Timezones can be one of the following:
 - Fixed timezone: a time zone that is a fixed offset (seconds east) from UTC.  Note: If the absolute value of the offset is greater than 
   24 hours you'll get UTC (i.e., zero offset) instead. In order to specify this use `?TIMEZONE_FIXED(Seconds)`.
 
-##### API to convert from one tz to another:
+### Convert from one tz to another:
 
 - `utc2local_datetime/2` – Converts UTC to local time and return the result as `calendar:datetime()`
 - `utc2local_ts/2` – Converts UTC to local time and return the result as unix timestamp
@@ -39,7 +39,7 @@ Note: for `local2utc_xxx/3` functions, the third parameter indicates what to ret
 when you are converting a datetime from one timezone to another, there are potentially two different results if the conversion happens 
 to land on in a timezone that's in the middle of a Daylight Saving conversion.
 
-By default disambiguation is disabled, and `elocaltime` will just guess as to it's best choice. But if you so desire, you can make 
+By default, disambiguation is disabled, and `elocaltime` will just guess as to it's best choice. But if you so desire, you can make 
 sure elocaltime does both conversions, and returns both.
 
 You can change this behaviour using the parameter:
@@ -48,7 +48,7 @@ You can change this behaviour using the parameter:
 - `?DS_DAYLIGHT`: If an ambiguous result occurs, will return the preferred daylight time.
 - `?DS_BOTH`: If an ambiguous result occurs both will be returned as a tuple of 3 elements `{ok, Standard, Daylight}`
 
-##### API to for date formatting
+### Date formatting
 
 This API Formats the given `DateTime` in the given timezone according to the provided format string. Uses [strftime()-like][3] formatting options,
 with the following extensions:
@@ -66,7 +66,7 @@ Notes:
 - `%E0S` behaves like `%S`, and `%E0f` produces no characters. In contrast `%E*f` always produces at least one digit, which may be '0'.
 - `%Y` produces as many characters as it takes to fully render the year. A year outside of [-999:9999] when formatted with `%E4Y` will produce more than four characters, just like `%Y`.
 
-##### Other public functions
+### Other public functions
 
 ###### civil_lookup 
 
@@ -143,7 +143,7 @@ Where:
 - `is_dst`: indicates if the offset is non-standard
 - `tz_abbreviation`: time-zone abbreviation (e.g., `<<"PST">>`)
 
-### Tests
+## Tests
 
 In order to run the tests just use `rebar3 ct` from project root.
 

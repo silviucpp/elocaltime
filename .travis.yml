@@ -6,23 +6,24 @@ matrix:
   include:
     - os: linux
       dist: bionic
-      otp_release: 23.3.1
+      otp_release: 25.3.2.6
 
     - os: linux
       dist: focal
-      otp_release: 24.3.1
+      otp_release: 27.0
 
     - os: linux
-      dist: focal
-      otp_release: 25.0
+      dist: jammy
+      otp_release: 26.1.1
 
     - os: osx
-      osx_image: xcode12.2
+      osx_image: xcode14.2
       language: generic
       env:
         - HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=true
         - HOMEBREW_NO_INSTALL_UPGRADE=true
         - HOMEBREW_NO_INSTALL_CLEANUP=true
+        - HOMEBREW_NO_AUTO_UPDATE=true
       cache:
         directories:
           - $HOME/Library/Caches/Homebrew
